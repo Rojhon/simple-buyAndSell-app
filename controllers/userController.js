@@ -64,7 +64,7 @@ exports.buyProduct = (req, res) => {
 exports.sellProduct = (req, res) => {
     const usersRef = firebase.database().ref('Users').child(req.params.id);
     const balance = usersRef.child("balance")
-    const product = usersRef.child("products_list").child(req.params.p_id);
+    const product = usersRef.child("products_list").child(req.body["p_id"]);
 
     usersRef.once("value", snapshot => {
         balance.set(snapshot.val()["balance"] + req.body["price"]);
