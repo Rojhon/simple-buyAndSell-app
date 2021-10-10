@@ -48,22 +48,29 @@ exports.getUserProductsList = (req, res) => {
 //     });
 // };
 
-exports.setBalance = (req, res) => {
-    const usersRef = firebase.database().ref('Users').child(req.params.id).child("balance");
-    usersRef.set(req.body["balance"])
-    res.json("Update Balance!");
-};
-
 exports.buyProduct = (req, res) => {
-    const usersRef = firebase.database().ref('Users').child(req.params.id).child("products_list");
-    usersRef.push(req.body);
-    res.json("Buy Product " + req.body["name"]);
+    const usersRef = firebase.database().ref('Users').child(req.params.id);
+    const balance = usersRef.child("balance")
+    const products_list = usersRef.child("products_list")
+
+    usersRef.once("value", snapshot => {
+        balance.set(snapshot.val()["balance"] - req.body["price"])
+        products_list.push(req.body)
+        res.json("Buy Product " + req.body["name"]);
+       
+    });
 };
 
 exports.sellProduct = (req, res) => {
-    const usersRef = firebase.database().ref('Users').child(req.params.id).child("products_list").child(req.params.p_id);
-    usersRef.remove()
-    res.json("Sell Product");
+    const usersRef = firebase.database().ref('Users').child(req.params.id);
+    const balance = usersRef.child("balance")
+    const product = usersRef.child("products_list").child(req.params.p_id);
+
+    usersRef.once("value", snapshot => {
+        balance.set(snapshot.val()["balance"] + req.body["price"]);
+        product.remove();
+        res.json("Sell Product");
+    });
 };
 
 exports.deleteUser = (req, res) => {
