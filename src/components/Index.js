@@ -13,7 +13,7 @@ const Index = ({match}) => {
             setBalance(response.data.balance)
           });
     }
-    , []);
+    , [userData]);
 
     return (
         <>
@@ -25,13 +25,13 @@ const Index = ({match}) => {
 
             {/* Products to buy */}
             <div>
-                <Product id={match.params.id} balance={balance} setBalance={setBalance}></Product>
+                <Product id={match.params.id} balance={balance}></Product>
             </div>
 
             {/* Products to sell */}
             <div>
                 <h2>Products List:</h2>
-                <ProductList id={match.params.id} balance={balance} setBalance={setBalance}></ProductList>
+                <ProductList id={match.params.id}></ProductList>
             </div>
         </>
     )

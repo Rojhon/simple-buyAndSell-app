@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import axios from "axios";
 
-const ProductList = ({id, balance, setBalance}) => {
+const ProductList = ({id}) => {
     const [productsList, setProductsList] = useState([]);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
@@ -20,15 +20,10 @@ const ProductList = ({id, balance, setBalance}) => {
     , [productsList]);
 
     const onClick = (p_id, price) => {
-        setBalance(balance + price);
-        axios.delete(`${id}/sell-product/${p_id}`).then((response) => {
+        axios.post(`${id}/sell-product/${p_id}`, {price}).then((response) => {
                 console.log(response.data)
         });
-
-        axios.post(`${id}/set-balance`, {balance: balance + price}).then((response) => {
-            console.log(response.data)
-          });
-      
+        
         };
     return (
         <>

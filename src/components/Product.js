@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import axios from "axios";
 
-const Products = ({id, balance, setBalance}) => {
+const Products = ({id, balance}) => {
     const [products, setProducts] = useState([]);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
@@ -17,17 +17,12 @@ const Products = ({id, balance, setBalance}) => {
             setError("Could not fetch the data in the server!");
           });
     }
-    , [products]);
+    , []);
 
     const onClick = (name, price) => {
-        setBalance(balance - price);
         axios.post(`${id}/buy-product`, {name, price}).then((response) => {
                 console.log(response.data)
         });
-
-        axios.post(`${id}/set-balance`, {balance: balance - price}).then((response) => {
-            console.log(response.data)
-          });
       
         };
     
