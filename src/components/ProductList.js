@@ -20,10 +20,10 @@ const ProductList = ({id}) => {
     , [productsList]);
 
     const onClick = (p_id, price) => {
-        axios.post(`${id}/sell-product/${p_id}`, {price}).then((response) => {
+        axios.post(`${id}/sell-product/${p_id}`, {p_id, price}).then((response) => {
                 console.log(response.data)
         });
-        
+
         };
     return (
         <>
